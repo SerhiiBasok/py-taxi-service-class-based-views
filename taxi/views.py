@@ -40,7 +40,9 @@ class CarDetailView(DetailView):
 class DriverListView(ListView):
     model = Driver
     template_name = "taxi/driver_list.html"
-    queryset = Driver.objects.select_related("manufacturer").order_by("username")
+    queryset = Driver.objects.select_related(
+        "manufacturer"
+    ).order_by("username")
     paginate_by = 5
 
 
