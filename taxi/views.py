@@ -28,7 +28,11 @@ class CarListView(ListView):
     model = Car
     template_name = "taxi/car_list.html"
     context_object_name = "car_list"
-    queryset = Car.objects.filter().order_by("pk")
+    queryset = Car.objects.select_related(
+        "manufacturer"
+    ).order_by(
+        "pk"
+    )
     paginate_by = 5
 
 
@@ -40,9 +44,11 @@ class CarDetailView(DetailView):
 class DriverListView(ListView):
     model = Driver
     template_name = "taxi/driver_list.html"
-    queryset = Driver.objects.select_related(
-        "manufacturer"
-    ).order_by("username")
+    queryset = Driver.objects.prefetch_related(
+        "cars__manufacturer"
+    ).order_by(
+        "username"
+    )
     paginate_by = 5
 
 
